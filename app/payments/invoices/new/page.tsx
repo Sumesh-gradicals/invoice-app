@@ -16,7 +16,7 @@ import {
   GripVertical,
 } from "lucide-react";
 import Link from "next/link";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, Suspense } from "react";
 import dynamic from 'next/dynamic';
 import { useRouter, useSearchParams } from "next/navigation";
 import { InvoicePDF } from '@/components/InvoicePDF';
@@ -37,7 +37,7 @@ const PDFViewer = dynamic(
   }
 );
 
-export default function NewInvoice() {
+function NewInvoiceContent() {
   // --- STATE MANAGEMENT ---
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -583,6 +583,14 @@ export default function NewInvoice() {
         }}
       />
     </div>
+  );
+}
+
+export default function NewInvoice() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center min-h-screen">Loading...</div>}>
+      <NewInvoiceContent />
+    </Suspense>
   );
 }
 
